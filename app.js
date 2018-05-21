@@ -1,38 +1,19 @@
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const passport = require('passport');
+const cors          = require('cors');
+const path          = require('path');
+const express       = require('express');
+const passport      = require('passport');
+const bodyParser    = require('body-parser');
 
-const app = express();
+const db            = require('./config/connection');
+const param         = require('./config/parameters');
 
-// BASE DE DONNEES //
+const app           = express();
 
-    // Postgresql
-    const pg = require('pg');
 
-    const client = new pg.Client("postgres://postgres:postgres@localhost/dbtest");
+// STATIC FOLDER
 
-    client.connect( (err) => {
+    app.use(express.static(path.join(__dirname, 'public')));
 
-        if(err) throw err;
-
-        console.log("Desormais connecte a la base de donnees");
-
-        client.query('SELECT utilisateur.nom, utilisateur.prenom, utilisateur.age, abonnee.dateInscription FROM myschema.utilisateur, myschema.abonnee WHERE abonnee.fk_idUtilisateur = utilisateur.idUtilisateur;', (err, result) =>{
-
-            if(err) throw err;
-
-            console.log(result.rows[1].nom);
-
-            client.end()
-        });
-    });
-//
-
-// Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
 
 // MIDDLEWARES //
 
@@ -47,20 +28,32 @@ app.use(express.static(path.join(__dirname, 'public')));
     app.use(passport.session());
 
     require('./config/passport')(passport);
-//
+
 
 // ROUTING //
+
     const routes = require('./routing/routes');
-    app.use('/test', routes);
-//
+    app.use('', routes);
 
-// Default Endpoint
-app.get('/', (req, res) => {
-    res.send("Invalide endpoint !");
-});
 
-// Initialisation Serveur
-const port = 3000;
-app.listen(port, () => {
-    console.log('Le serveur a démarré sur le port : ' + port);
-});
+// SERVER
+
+    app.listen(param.port, (err) => {
+
+        if (err) throw err;
+        console.log('Le serveur a démarré sur le port : ' + param.port);
+    });
+
+
+
+// (A conserver) Base test psql : 
+
+    // const queryText = 'SELECT * FROM schema.user;';
+
+    // db.connectionPsql(queryText);
+
+
+    // const queryText = 'SELECT * FROM schema.user WHERE schema.user.idUser = $1;';
+    // const queryValues = ['1'];
+
+    // db.connectionPsql(queryText, queryValues);

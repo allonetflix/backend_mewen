@@ -1,25 +1,24 @@
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-const UserTable = require('../models/userSchema');
-const config = require('../config/database');
+const JwtStrategy   = require('passport-jwt').Strategy;
+const ExtractJwt    = require('passport-jwt').ExtractJwt;
 
-module.exports = function(passport){
+const param         = require('./parameters');
+const selectQuery   = require('../queries/select');
+
+
+module.exports = (passport) => {
 
     let opts = {};
     opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
-    opts.secretOrKey = config.secret;
+    opts.secretOrKey = param.secret;
     passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
 
-        UserTable.findById(jwt_payload.userFound._id, (err, userFound) => {
+        selectQuery.selectUserById(jwt_payload.iduser, (err, userFound) => {
 
             if(err){ return done(err, false); }
 
             if(userFound){ return done(null, userFound); }
 
             else{ return done(null, false); }
-
         });
-
     }));
-
 }
