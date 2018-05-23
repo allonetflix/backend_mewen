@@ -10,7 +10,7 @@ const param         = require('./config/parameters');
 const app           = express();
 
 
-// STATIC FOLDER
+// STATIC FOLDER //
 
     app.use(express.static(path.join(__dirname, 'public')));
 
@@ -36,7 +36,7 @@ const app           = express();
     app.use('', routes);
 
 
-// SERVER
+// SERVER //
 
     app.listen(param.port, (err) => {
 

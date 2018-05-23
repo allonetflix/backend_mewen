@@ -2,6 +2,7 @@ const bcrypt 		= require('bcryptjs');
 
 const db	        = require('../config/connection');
 
+// User
 
 module.exports.selectUserById = (idSearched, callback) => {
 
@@ -26,4 +27,14 @@ module.exports.comparePassword = (pwdEntered, pwdHashed, callback) => {
         if(err) throw err;
         callback(null, isMatch);
     });
+}
+
+// Article
+
+module.exports.selectArticle = (callback) => {
+
+    const queryText = 'SELECT * FROM schema.article;';
+    const queryValues = null;
+
+    db.connectionPsql(queryText, queryValues, callback);
 }

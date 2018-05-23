@@ -39,6 +39,8 @@ router.post('/authenticate', (req, res) => { // Authenticate
 
     selectQuery.selectUserByPseudo(pseudoEntered, (err, userFound) => { // check if user exists
 
+        console.log(userFound[0].password);
+
         if(err) throw err;
         if(!userFound){ return res.json({success: false, msg: "User not found !"}); }
        
@@ -69,6 +71,20 @@ router.post('/authenticate', (req, res) => { // Authenticate
 router.get('/profil', passport.authenticate('jwt', { session: false }), (req, res) => { // Profil
 
     res.json({userData: req.user });
+});
+
+router.get('/article', (req, res) => { // Article
+
+    selectQuery.selectArticle((err, listArticleFound) => {     
+
+        if(err) throw err;
+        if(!listArticleFound){ return res.json({success: false, msg: "List Articles not found !"}); }
+
+        res.json({
+            succes: true,
+            listArticle: listArticleFound
+        });
+    });
 });
 
 module.exports = router;

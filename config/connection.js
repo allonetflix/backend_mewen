@@ -18,7 +18,6 @@ module.exports.connectionPsql = (queryText, queryValues, callback) => {
 
             if(err) throw callback(err);
 
-
             client.end();
 
             // console.log(result.rows);
