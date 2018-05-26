@@ -3,7 +3,7 @@ const router        = express.Router();
 const passport      = require('passport');
 const jwt           = require('jsonwebtoken');
 
-const param         = require('../config/parameters');
+const config        = require('../config/configuration');
 const insertQuery   = require('../queries/insert');
 const selectQuery   = require('../queries/select');
         
@@ -49,7 +49,7 @@ router.post('/authenticate', (req, res) => { // Authenticate
             if(err) throw err;
             if(isMatch){ 
 
-                const token = jwt.sign(userFound[0], param.secret, { expiresIn: 60 * 60 });
+                const token = jwt.sign(userFound[0], config.secret, { expiresIn: 60 * 60 });
                 
                 res.json({
                     succes: true,

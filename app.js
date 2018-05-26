@@ -5,7 +5,7 @@ const passport      = require('passport');
 const bodyParser    = require('body-parser');
 
 const db            = require('./config/connection');
-const param         = require('./config/parameters');
+const config         = require('./config/configuration');
 
 const app           = express();
 
@@ -38,10 +38,10 @@ const app           = express();
 
 // SERVER //
 
-    app.listen(param.port, (err) => {
+    app.listen(config.port, (err) => {
 
         if (err) throw err;
-        console.log('Le serveur a démarré sur le port : ' + param.port);
+        console.log('Le serveur a démarré sur le port : ' + config.port);
     });
 
 

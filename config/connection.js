@@ -1,14 +1,14 @@
 const { Client }    = require('pg');
 
-const param         = require('./parameters')
+const config        = require('./configuration');
 
 
 module.exports.connectionPsql = (queryText, queryValues, callback) => {
 
-    const client        = new Client("postgres://" + param.psql.user 
-                        + ":" + param.psql.password 
-                        + "@" + param.psql.host 
-                        + "/" + param.psql.database);
+    const client        = new Client("postgres://" + config.psql.user 
+                        + ":" + config.psql.password 
+                        + "@" + config.psql.host 
+                        + "/" + config.psql.database);
 
     client.connect((err, client, done) => {
 
