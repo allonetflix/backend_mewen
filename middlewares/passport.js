@@ -1,8 +1,8 @@
 const JwtStrategy   = require('passport-jwt').Strategy;
 const ExtractJwt    = require('passport-jwt').ExtractJwt;
 
-const config        = require('./configuration');
 const selectQuery   = require('../queries/select');
+const config        = require('../config/configuration');
 
 
 module.exports = (passport) => {

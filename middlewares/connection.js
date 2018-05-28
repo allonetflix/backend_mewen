@@ -1,6 +1,6 @@
 const { Client }    = require('pg');
 
-const config        = require('./configuration');
+const config        = require('../config/configuration');
 
 
 module.exports.connectionPsql = (queryText, queryValues, callback) => {
@@ -22,9 +22,7 @@ module.exports.connectionPsql = (queryText, queryValues, callback) => {
 
             // console.log(result.rows);
             // console.log(result.rows[0].pseudo);
-            return callback(null,result.rows);
-
-           
+            return callback(null,result.rows);   
         });        
     });
 }

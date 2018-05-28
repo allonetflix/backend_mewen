@@ -1,6 +1,6 @@
 const bcrypt        = require('bcryptjs');
 
-const db        	= require('../config/connection');
+const db	        = require('../middlewares/connection');
 
 
 module.exports.insertUser = (newUser, callback) =>{

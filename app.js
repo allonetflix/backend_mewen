@@ -4,8 +4,8 @@ const express       = require('express');
 const passport      = require('passport');
 const bodyParser    = require('body-parser');
 
-const db            = require('./config/connection');
-const config         = require('./config/configuration');
+const config        = require('./config/configuration');
+const db            = require('./middlewares/connection');
 
 const app           = express();
 
@@ -27,13 +27,15 @@ const app           = express();
     app.use(passport.initialize());
     app.use(passport.session());
 
-    require('./config/passport')(passport);
+    require('./middlewares/passport')(passport);
 
 
 // ROUTING //
 
-    const routes = require('./routing/routes');
-    app.use('', routes);
+    const routeUser     = require('./routing/routeUser');
+    const routeArticle  = require('./routing/routeArticle');
+    app.use('', routeUser);
+    app.use('', routeArticle);
 
 
 // SERVER //
@@ -43,17 +45,3 @@ const app           = express();
         if (err) throw err;
         console.log('Le serveur a démarré sur le port : ' + config.port);
     });
-
-
-
-// (A conserver) Base test psql : 
-
-    // const queryText = 'SELECT * FROM schema.user;';
-
-    // db.connectionPsql(queryText);
-
-
-    // const queryText = 'SELECT * FROM schema.user WHERE schema.user.idUser = $1;';
-    // const queryValues = ['1'];
-
-    // db.connectionPsql(queryText, queryValues);
