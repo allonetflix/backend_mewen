@@ -7,7 +7,7 @@ const commonController = require('../controllers/commonController');
 const ensureBodyFields = require('../middlewares/ensureBodyFields');
 
 
-router.post('/register', userController.registerUser);
+router.post('/register', ensureBodyFields.verifyBody(['pseudo', 'email', 'password', 'lastName']), userController.registerUser);
 
 router.post('/authenticate', ensureBodyFields.verifyBody(['pseudo', 'password']), commonController.authenticationUser);
 
